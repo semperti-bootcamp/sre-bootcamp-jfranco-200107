@@ -157,6 +157,14 @@ vmbootcamp2020.eastus.cloudapp.azure.com | SUCCESS => {
 ```
 Con esto tenemos todos los pasos suficientes para aprovicionar nuestra configuracion.
 
+
+## Ejecucion del script de Ansible
+Se ejecuta el playbook, especificando el archivo yml y el archivo local de nuestros nosotros. Adicionalmente se envia el parametro K para solicitar la contraseña del root.
+
+```
+ansible-playbook Environment.yml -i servers -K 
+```
+
 # Contact
 
 Cualquier duda o consulta, ubicanos en [Slack](https://semperti.slack.com).
