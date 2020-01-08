@@ -1,0 +1,8 @@
+- name: Semperti test
+  hosts: all
+  tasks:
+    # Instalacion de paquetes
+    - name: General | Instalacion de paquetes requeridos.
+      action: apt pkg={{ item }} state=installed
+      with_items:
+       - php5
