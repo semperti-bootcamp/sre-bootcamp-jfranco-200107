@@ -9,4 +9,16 @@
       become: yes
       become_user: jsfrnc
       become_flags: '-s /bin/sh' 
-
+     - name: Install MySQL
+      hosts: all
+      become: true
+      become_user: jsfrnc
+      gather_facts: true
+      tasks:
+       - name: "Installing Repo & Packages"
+         yum: name=http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
+       - name: Install MySQL 5.7
+         yum: pkg={{ item }}
+         with_items:
+          - mysql-community-server
+          - mysql-community-client
