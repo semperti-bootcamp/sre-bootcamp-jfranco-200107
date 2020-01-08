@@ -1,23 +1,23 @@
 provider "azurerm" {
     version = "~>1.32.0"
     use_msi = true
-    subscription_id = "b72d1359-60f3-4e11-80c2-43fc9bd01e2d"
-    client_id       = "165e118e-1c6c-4bf1-8a53-9d8b010f953f"
-    client_secret   = "f997314b-c491-4579-a3df-91fbfd9c2eb1"
-    tenant_id       = "9233941b-372b-4d50-b3ae-c0253875b19d"
+    subscription_id = "${var.azure_subscription_id}"
+    client_id       = "${var.azure_client_id}"
+    client_secret   = "${var.azure_client_secret}"
+    tenant_id       = "${var.azure_tenant_id}"
 }
 
 # Create a resource group
 resource "azurerm_resource_group" "rg" {
   name     = "${var.resource_prefix}ResourceGroup"
-  location = var.location
+  location = "${var.location}"
 }
 
 # Create virtual network
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.resource_prefix}Vnet"
   address_space       = ["10.0.0.0/16"]
-  location            = var.location
+  location            = "${var.location}"
   resource_group_name = azurerm_resource_group.rg.name
 }
 
@@ -32,8 +32,8 @@ resource "azurerm_subnet" "subnet" {
 # Create public IP
 resource "azurerm_public_ip" "publicip" {
   name                = "${var.resource_prefix}PublicIP"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = "${var.location}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
   allocation_method   = "Static"
 }
 
@@ -60,7 +60,7 @@ resource "azurerm_network_security_group" "nsg" {
 # Create network interface
 resource "azurerm_network_interface" "nic" {
   name                      = "${var.resource_prefix}NIC"
-  location                  = var.location
+  location                  = "${var.location}"
   resource_group_name       = azurerm_resource_group.rg.name
   network_security_group_id = azurerm_network_security_group.nsg.id
 
@@ -96,8 +96,8 @@ resource "azurerm_virtual_machine" "vm" {
 
   os_profile {
     computer_name  =  var.vmname
-    admin_username = "jsfrnc"
-    admin_password = "Semperti.2020"
+    admin_username = "${var.vm_admin_username}"
+    admin_password = "${var.vm_admin_password}"
   }
 
   os_profile_linux_config {

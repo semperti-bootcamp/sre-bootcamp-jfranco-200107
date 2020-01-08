@@ -1,0 +1,6 @@
+#azure_subscription_id = "00000000-0000-0000-0000-000000000000"
+#azure_client_id       = "00000000-0000-0000-0000-000000000000"
+#azure_client_secret   = "00000000-0000-0000-0000-000000000000"
+#azure_tenant_id       = "00000000-0000-0000-0000-000000000000"
+#vm_admin_username = "root"
+#vm_admin_password = "passw0rd!"

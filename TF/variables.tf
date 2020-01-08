@@ -15,3 +15,11 @@ variable "location" {
 variable "resource_prefix" {
   default = "Bootcamp"
 }
+
+variable "azure_subscription_id" { }
+variable "azure_client_id" { }
+variable "azure_client_secret" { }
+variable "azure_tenant_id" { }
+variable "vm_admin_username" { }
+variable "vm_admin_password" { }
+ 
