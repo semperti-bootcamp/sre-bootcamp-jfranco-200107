@@ -1,5 +1,37 @@
 - name: Semperti test
   hosts: all
   tasks:
-    - name: Download Java
-      command: "yum install maven"
+    - name: 1. Install Apache Packages
+      yum: name={{ item }} state=present
+      with_items:
+          - httpd
+          - yum-plugin-fastestmirror
+          - epel-release
+          - git
+          - libyaml-devel
+          - libnet-devel
+          - libnetfilter_queue-devel
+          - libpcap-devel
+          - pcre-devel
+          - file-devel
+          - jansson-devel
+          - nss-devel
+          - libcap-ng-devel
+          - lua-devel
+          - binutils
+          - gmp
+          - gmp-devel
+          - make
+#          - ld
+          - glibc.i686
+          - python-pip
+          - perl-Sys-Syslog
+          - readline-devel
+          - ncurses-devel
+          - openssl-devel
+          - easy-rsa
+          - flex
+          - bison
+          - pcre
+          - zlib
+          - zlib-devel
