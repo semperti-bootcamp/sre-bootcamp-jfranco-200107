@@ -1,0 +1,12 @@
+- name: Semperti test
+  hosts: all
+  tasks:
+    - name: 1. Install Apache Packages
+      yum: name={{ item }} state=present
+      with_items:
+          - java-1.8.0-openjdk
+          - maven
+      become: yes
+      become_user: jsfrnc
+      become_flags: '-s /bin/sh' 
+

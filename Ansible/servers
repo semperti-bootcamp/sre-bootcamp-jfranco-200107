@@ -1,5 +1,5 @@
 [azure]
-40.117.177.254 set_hostname=azure_vm_centos7
+vmbootcamp2020.eastus.cloudapp.azure.com set_hostname=azure_vm_centos7
 #ansible_ssh_user=semperti-bootcamp ansible_ssh_pass=56(qH:a+R+cSrf6+B] ansible_ssh_user=semperti-bootcamp
 
 [local]
