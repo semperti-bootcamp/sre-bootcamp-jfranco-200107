@@ -1,30 +1,37 @@
 - name: Semperti test
   hosts: all
-  sudo: yes
-  vars:
-    download_url: http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.tar.gz
-    download_folder: /opt
-    java_name: "{{download_folder}}/jdk1.8.0_05"
-    java_archive: "{{download_folder}}/jdk-8u5-linux-x64.tar.gz"
   tasks:
-
-    # Instalacion de paquetes
-    # - name: General | Instalacion de paquetes requeridos.
-    #   action: apt pkg={{ item }} state=installed
-    #   with_items:
-    #    - php5
-
-    - name: Download Java
-      command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}"
-
-    - name: Unpack archive
-      command: "tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_name}}"
-
-    - name: Fix ownership
-      file: state=directory path={{java_name}} owner=root group=root recurse=yes
-
-    - name: Make Java available for system
-      command: 'alternatives --install "/usr/bin/java" "java" "{{java_name}}/bin/java" 2000'
-
-    - name: Clean up
-      file: state=absent path={{java_archive}}
+    - name: 1. Install Apache Packages
+      yum: name={{ item }} state=present
+      with_items:
+          - httpd
+          - yum-plugin-fastestmirror
+          - epel-release
+          - git
+          - libyaml-devel
+          - libnet-devel
+          - libnetfilter_queue-devel
+          - libpcap-devel
+          - pcre-devel
+          - file-devel
+          - jansson-devel
+          - nss-devel
+          - libcap-ng-devel
+          - lua-devel
+          - binutils
+          - gmp
+          - gmp-devel
+          - make
+#          - ld
+          - glibc.i686
+          - python-pip
+          - perl-Sys-Syslog
+          - readline-devel
+          - ncurses-devel
+          - openssl-devel
+          - easy-rsa
+          - flex
+          - bison
+          - pcre
+          - zlib
+          - zlib-devel
