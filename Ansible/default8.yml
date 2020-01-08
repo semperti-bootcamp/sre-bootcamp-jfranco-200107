@@ -1,0 +1,22 @@
+- name: Semperti test
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: 1. Install Apache Packages
+      yum: name={{ item }} state=present
+      with_items:
+          - java-1.8.0-openjdk
+          - maven
+      become: yes
+      become_user: jsfrnc
+      #become_flags: '-s /bin/sh' 
+ 
+
+    - name: Use 'argv' to send a command as a list - leave 'command' empty
+      command: 'sudo wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm'
+      become: yes
+      become_user: jsfrnc
+    - name: Use 'argv' to send a command as a list - leave 'command' empty
+      command: 'sudo wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm'
+      become: yes
+      become_user: jsfrnc

@@ -1,0 +1,24 @@
+- name: Semperti test
+  hosts: all
+  gather_facts: true
+  authorized_key:
+   user: jsfrnc
+   state: present
+   key: "{{ lookup('file', '/home/jsfrnc/.ssh/id_rsa.pub') }}"
+
+  tasks:
+    - name: 1. Install Apache Packages
+      yum: name={{ item }} state=present
+      with_items:
+          - java-1.8.0-openjdk
+          - maven
+      become: yes
+      become_user: jsfrnc
+    - name: "Installing Repo & Packages"
+      yum: name=http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
+
+    - name: Install MySQL 5.7
+      yum: pkg={{ item }}
+      with_items:
+       - mysql-community-server
+       - mysql-community-client

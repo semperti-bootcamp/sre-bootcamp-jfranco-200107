@@ -1,0 +1,25 @@
+- name: Semperti test
+  hosts: all
+  gather_facts: true
+  become: yes
+  remote_user: jsfrnc
+  become_method: sudo
+  tasks:
+    - name: 1. Install Apache Packages
+      yum: name={{ item }} state=present
+      with_items:
+          - java-1.8.0-openjdk
+          - maven
+      become: yes
+      #become_flags: '-s /bin/sh' 
+ 
+
+    - name: test
+      yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
+      become: yes
+      become_user: jsfrnc
+
+    - name: Use 'argv' to send a command as a list - leave 'command' empty
+      command: 'sudo wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm'
+      become: yes
+      become_user: jsfrnc

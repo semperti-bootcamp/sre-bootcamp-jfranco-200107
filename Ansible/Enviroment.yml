@@ -1,23 +1,37 @@
 - name: Semperti test
   hosts: all
   gather_facts: true
-  #become: yes
-  #remote_user: jsfrnc
-  #become_method: sudo
   tasks:
-    - name: Instalamos los paquetes java & maven
+    - name: Borramos version vieja de Maven
+      yum:
+        name: maven
+        state: removed
+      become: yes
+
+    - name: Instalamos los paquetes java-1.8.0-openjdk, maven & mariadb-server
       yum: name={{ item }} state=present
       with_items:
           - java-1.8.0-openjdk
           - maven
-          - mariadb
           - mariadb-server
-          - MySQL-python
-          
+          #- MySQL-python
       become: yes
       #become_user: jsfrnc
       #become_flags: '-s /bin/sh' 
- 
+     
+    - name: systemctl start mariadb
+      shell: systemctl start mariadb
+      become: yes
+
+    - name: systemctl start mariadb
+      shell: systemctl enable mariadb
+      become: yes
+
+  #- name: Start MariaDb service
+    #  service: name=mariadb state=started enabled=true
+      #shell: mysqld start --user=root 
+      #service: name=mysqld state=started enabled=true
+    #  become: yes
 
     #- name: descargamos mysql
     #  yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
@@ -33,13 +47,15 @@
     #  become: yes
 
 
-    - name: Install the Python MySQL Support Libraries
-      yum: pkg=MySQL-python state=latest
-    - name: start mysql server and enable it on reboot
-      service: name=mariadb state=started enabled=true #debian: mysql
+    #- name: Install the Python MySQL Support Libraries
+    #  yum: pkg=MySQL-python state=latest
+    #- name: start mysql server and enable it on reboot
+    #  service: name=mariadb state=started enabled=true #debian: mysql
 
     #- name: Start MariaDb service
     #  service: name=mariadb state=started enabled=true
       #shell: mysqld start --user=root 
       #service: name=mysqld state=started enabled=true
     #  become: yes
+
+ 
