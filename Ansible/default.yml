@@ -1,6 +1,7 @@
 - name: Semperti test
   hosts: all
   tasks:
+<<<<<<< HEAD
     - name: 1. Install Apache Packages
       yum: name={{ item }} state=present
       with_items:
@@ -35,3 +36,7 @@
           - pcre
           - zlib
           - zlib-devel
+=======
+    - name: Download Java
+      command: "yum install maven"
+>>>>>>> 4073663523a6683c338e6424bc7bbea20e24f20e
