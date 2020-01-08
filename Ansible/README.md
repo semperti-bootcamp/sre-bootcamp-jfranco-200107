@@ -120,6 +120,42 @@ jsfrnc@DESKTOP-05EMQVA:~$ ssh 'jsfrnc@vmbootcamp2020.eastus.cloudapp.azure.com'
 
 ## Configurar nodos
 
+Dentro de nuestra carpeta de Ansible, editamos los servers.
+```
+nano servers
+```
+En nuestro caso estamos usando un DNS, en caso de necesitar podemos agregar mas.
+```
+[azure]
+vmbootcamp2020.eastus.cloudapp.azure.com set_hostname=azure_vm_centos7
+
+[local]
+
+[servers:children]
+azure
+local
+```
+
+Para verificar esto podemos hacer un ping a todos los equipos.
+```
+jsfrnc@DESKTOP-05EMQVA:~/repos/sre-bootcamp-jfranco-200107/Ansible$ ansible all -m ping
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match
+'all'
+```
+
+Como no especificamos un archivo de hosts, fue a buscar el de defecto, con el comando -i podemos especificar el archivo servers que modificamos anteriormente.
+
+```
+jsfrnc@DESKTOP-05EMQVA:~/repos/sre-bootcamp-jfranco-200107/Ansible$ ansible all -m ping -i servers
+vmbootcamp2020.eastus.cloudapp.azure.com | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+```
+Con esto tenemos todos los pasos suficientes para aprovicionar nuestra configuracion.
 
 # Contact
 
