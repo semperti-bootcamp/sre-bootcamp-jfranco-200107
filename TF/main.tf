@@ -35,6 +35,7 @@ resource "azurerm_public_ip" "publicip" {
   location            = "${var.location}"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   allocation_method   = "Static"
+  domain_name_label   = "vmbootcamp2020"
 }
 
 
@@ -55,8 +56,21 @@ resource "azurerm_network_security_group" "nsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+   #agreegamos el puerto 8080 de la app
+   security_rule {
+    name                       = "HTTP"
+    priority                   = 1002
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "8080"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 }
 
+ 
 # Create network interface
 resource "azurerm_network_interface" "nic" {
   name                      = "${var.resource_prefix}NIC"
@@ -69,6 +83,7 @@ resource "azurerm_network_interface" "nic" {
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "dynamic"
     public_ip_address_id          = azurerm_public_ip.publicip.id
+	 
   }
 }
 
@@ -77,7 +92,7 @@ resource "azurerm_virtual_machine" "vm" {
   name                  =  var.vmname
   location              =  var.location
   resource_group_name   = azurerm_resource_group.rg.name
-  network_interface_ids = [azurerm_network_interface.nic .id]
+  network_interface_ids = [azurerm_network_interface.nic.id]
   vm_size               = "Standard_B1ls"
 
   storage_os_disk {
