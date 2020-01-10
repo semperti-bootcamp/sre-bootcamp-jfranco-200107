@@ -28,6 +28,38 @@ Repositorio para los assignments de la primer semana.
 		2. public users:
 			- username: user1 / password: user1
 			- username: user2 / password: user2
+
+
+## Configuracion de Nexus
+Se debe modificar la configuracion local de Maven, el archivo conf/settings.xml en linux se encuentra en /usr/local/maven/conf en windows depende la carpeta que se selecciono.
+
+```
+	<server>
+		<id>snapshots</id>
+		<username>Bootcamp</username>
+		<password>Bootcamp1!</password>
+	</server>
+	<server>
+		<id>releases</id>
+		<username>Bootcamp</username>
+		<password>Bootcamp1!</password>
+	</server>
+```
+Para la creacion de los snapshots se deja los comandos
+
+```
+mvn versions:set -DnewVersion=8.8-SNAPSHOT
+mvn clean deploy
+
+```
+
+```
+#release
+mvn versions:set -DnewVersion=8.9
+mvn clean deploy
+```
+
+Hay un archivo de ejemplo en Docs/mvn.conf.settings.xml
             
 # Contact
 
