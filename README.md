@@ -45,21 +45,32 @@ Se debe modificar la configuracion local de Maven, el archivo conf/settings.xml 
 		<password>Bootcamp1!</password>
 	</server>
 ```
+
+Hay un archivo de ejemplo en Docs/mvn.conf.settings.xml
+
 Para la creacion de los snapshots se deja los comandos
 
 ```
-mvn versions:set -DnewVersion=8.8-SNAPSHOT
+mvn versions:set -DnewVersion=1.1-SNAPSHOT
 mvn clean deploy
 
 ```
 
 ```
 #release
-mvn versions:set -DnewVersion=8.9
+mvn versions:set -DnewVersion=1.1
 mvn clean deploy
 ```
 
-Hay un archivo de ejemplo en Docs/mvn.conf.settings.xml
+Para agilizar este proceso, se genero
+```
+ansible-playbook snapshot.yml --extra-vars "version=1.1"
+```
+```
+ansible-playbook release.yml --extra-vars "version=1.1"
+```
+
+ 
             
 # Contact
 

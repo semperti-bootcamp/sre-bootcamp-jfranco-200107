@@ -1,0 +1,16 @@
+---
+
+- hosts: all
+    
+  vars:
+    src-path: ./Code
+    version: "{{ version }}"
+      
+  - name: Mnn clean
+    shell: "mvn versions:set -DnewVersion={{version}}-SNAPSHOT -f {{ src-path }}/pom.xml"
+    register: mvn_result
+
+  - name: mvn clean deploy
+    shell: "mvn clean deploy -f {{ src-path }}/pom.xml"
+    debug:
+     var: mvn_result
