@@ -120,6 +120,16 @@ docker run  --privileged --name journals_app  -p 8080:8080 -ti afaa7c0506e7
 
 A disfrutar!
 
+
+
+## Ansible para automatizar la publicación
+
+
+```
+ansible-playbook docker-publish.yml --extra-vars "version=1.1"
+```
+
+
 # Contact
 
 Cualquier duda o consulta, ubicanos en [Slack](https://semperti.slack.com).
