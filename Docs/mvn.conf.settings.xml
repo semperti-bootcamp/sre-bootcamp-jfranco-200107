@@ -49,5 +49,10 @@
         <username>Bootcamp</username>
         <password>Bootcamp1!</password>
      </server>
+     <server>
+         <id>nexus</id>
+         <username>Bootcamp</username>
+         <password>Bootcamp1!</password>
+     </server>
   </servers>
 </settings>
