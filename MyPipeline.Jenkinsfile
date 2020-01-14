@@ -11,7 +11,7 @@ pipeline {
     stages {
 			stage('Step 1 - Configuración') {
 				steps {
-					sh "./connect-vpn.sh"
+					sh "sudo /opt/openvpn/connect-vpn.sh"
 				}
 			}
 			stage('Step 2 - Unit testing') {
