@@ -12,7 +12,6 @@ pipeline {
 			stage('Step 1 - Configuración') {
 				steps {
 					sh "./OpenVpn/connect-vpn.sh"
-					sh "cat ./Docker.key | docker login --username jsfrnc --password-stdin"
 				}
 			}
 			stage('Step 2 - Unit testing') {
