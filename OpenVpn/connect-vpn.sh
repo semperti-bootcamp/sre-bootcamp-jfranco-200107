@@ -6,5 +6,5 @@ then
   echo "Ya estamos conectado a la vpn"
 else
   echo "Conentando a la vpn"
-  sudo openvpn --client --config pfsense-UDP4-1194-jfranco-config.ovpn --auth-user-pass auth.txt & 
+  sudo openvpn --client --config /OpenVpn/pfsense-UDP4-1194-jfranco-config.ovpn --auth-user-pass /OpenVpn/auth.txt & 
 fi
