@@ -5,7 +5,7 @@
     gather_facts: false
     hosts: all
     vars:
-        srcpath: ./Code
+        srcpath: Code
         version: "{{ version }}"
     tasks:
 
