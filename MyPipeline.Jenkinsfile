@@ -22,17 +22,17 @@ pipeline {
 			}
 			stage('Step 3 - Snapshot & Upload a Nexus') {
 				steps {
-                	sh 'ansible-playbook snapshot.yml --extra-vars "version=$env.VERSION"'
+                	sh 'ansible-playbook snapshot.yml --extra-vars "version=${VERSION}"'
 				}
 			}
 			stage('Step 4 - Release & Upload a Nexus') {
 				steps {
-					sh 'ansible-playbook release.yml --extra-vars "version=$env.VERSION"'
+					sh 'ansible-playbook release.yml --extra-vars "version=${VERSION}"'
 				}
 			}
 			stage('Step 5 - Creacion del Docker & Publicacion ') {
 				steps {
-					sh 'ansible-playbook docker-publish.yml --extra-vars "version=1.1"'
+					sh 'ansible-playbook docker-publish.yml --extra-vars "version=${VERSION}"'
 				}
 			}
 			 
