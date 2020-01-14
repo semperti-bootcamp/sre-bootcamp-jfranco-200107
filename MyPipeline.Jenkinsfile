@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node (){
-            label 'sre-bootcamp-jfranco-200107'
+            label 'bc-jfranco'
         }
     }
     environment {
