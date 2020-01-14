@@ -118,6 +118,8 @@ jsfrnc@DESKTOP-05EMQVA:~$ ssh 'jsfrnc@vmbootcamp2020.eastus.cloudapp.azure.com'
 [jsfrnc@vmbootcamp ~]$
 ```
 
+NOTA: Es posible que en algunos equipos nos pida el sshpass, para eso se deja versionado el archivo server_configure.sh para descargar y configurarlo.
+
 ## Configurar nodos
 
 Dentro de nuestra carpeta de Ansible, editamos los servers.
