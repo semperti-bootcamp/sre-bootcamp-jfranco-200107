@@ -5,7 +5,6 @@ pipeline {
         }
     }
     environment {
-        ANSIBLE_HOST_KEY_CHECKING = 'false'
 		VERSION = "1.1"
     }
 
@@ -18,16 +17,19 @@ pipeline {
 			stage('Step 2 - Unit testing') {
 				steps {
 					sh "echo TBD"
+ 					sh "mvn test -f Code/pom.xml"
 				}
 			}
 			stage('Step 3 - Snapshot') {
 				steps {
-					sh "echo TBD"
+               		sh "mvn versions:set -DnewVersion=$env.VERSION -f Code/pom.xml"
+                	sh "mvn clean deploy -f Code/pom.xml -DskipTests" 
 				}
 			}
 			stage('Step 4 - Release') {
 				steps {
-					sh "echo TBD"
+					sh "mvn versions:set -DnewVersion=$env.VERSION-SNAPSHOT -f Code/pom.xml"
+					sh "mvn clean deploy -f Code/pom.xml -DskipTests" 
 				}
 			}
 			stage('Step 5 - Upload a Nexus del artefacto de Maven ') {
