@@ -22,14 +22,12 @@ pipeline {
 			}
 			stage('Step 3 - Snapshot') {
 				steps {
-               		sh "mvn versions:set -DnewVersion=$env.VERSION -f Code/pom.xml"
-                	sh "mvn clean deploy -f Code/pom.xml -DskipTests" 
+                	sh 'ansible-playbook snapshot.yml --extra-vars "version=$env.VERSION"'
 				}
 			}
 			stage('Step 4 - Release') {
 				steps {
-					sh "mvn versions:set -DnewVersion=$env.VERSION-SNAPSHOT -f Code/pom.xml"
-					sh "mvn clean deploy -f Code/pom.xml -DskipTests" 
+					sh 'ansible-playbook release.yml --extra-vars "version=$env.VERSION"'
 				}
 			}
 			stage('Step 5 - Upload a Nexus del artefacto de Maven ') {
