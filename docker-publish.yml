@@ -10,7 +10,7 @@
       tasks:
   
         - name: Docker Build
-          shell: "docker build -rm -t journals-{{version}} {{ srcpath }} "
+          shell: "docker build -t journals-{{version}} {{ srcpath }} "
 
         - name: Tageamos la version
           shell: "docker tag journals-{{version}} jsfrnc/bootcamp-journals:{{version}}"
