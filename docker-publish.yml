@@ -1,0 +1,25 @@
+---
+
+    - name: Publicacion de Docker a DockerHub
+      connection: network_cli
+      gather_facts: false
+      hosts: all
+      vars:
+          srcpath: ./Code
+          version: "{{ version }}"
+      tasks:
+  
+        - name: Docker Build
+          shell: "docker build -rm -t journals-{{version}} {{ srcpath }} "
+
+        - name: Tageamos la version
+          shell: "docker tag journals-{{version}} jsfrnc/bootcamp-journals:{{version}}"
+          
+        - name: Push Docker
+          shell: "docker push jsfrnc/bootcamp-journals:{{version}}"
+ 
+           
+ 
+
+
+ 
