@@ -34,16 +34,15 @@ RUN rm -R /var/lib/mysql/*
 RUN mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
  
 
-COPY . ./home/journals/
+COPY . /home/journals/
 
  
 CMD ["mvn", "dependency:go-offline -B"]
-COPY ./Code/target/journals-1.0.jar  ./home/journals/Code/target
+COPY ./Code/target/journals-1.0.jar  /home/journals/Code/target
 
-EXPOSE 8080 3306
+EXPOSE 8080 3306 80
 
 
 #RUN mysqld  --user=root  
-ENTRYPOINT ./home/journals/docker-entrypoint.sh
-
+ENTRYPOINT  /home/journals/docker-entrypoint.sh
 #ENTRYPOINT export HOSTIP="$(resolveip -s $HOSTNAME)" && exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
