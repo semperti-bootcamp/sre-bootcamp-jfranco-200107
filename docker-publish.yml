@@ -5,12 +5,11 @@
       gather_facts: false
       hosts: all
       vars:
-          srcpath: ./Code
           version: "{{ version }}"
       tasks:
   
         - name: Docker Build
-          shell: "docker build -t journals-{{version}} {{ srcpath }} "
+          shell: "docker build -t journals-{{version}} ."
 
         - name: Tageamos la version
           shell: "docker tag journals-{{version}} jsfrnc/bootcamp-journals:{{version}}"
