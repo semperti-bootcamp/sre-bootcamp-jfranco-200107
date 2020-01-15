@@ -14,8 +14,9 @@
         register: shell_result
  
   
+    # sacamos el mvn clean deploy por los problemas de la vpn
       - name: mvn clean deploy
-        shell: "mvn clean deploy -f {{ srcpath }}/pom.xml"
+        shell: "mvn deploy -f {{ srcpath }}/pom.xml"
         register: shell_result
 
 
