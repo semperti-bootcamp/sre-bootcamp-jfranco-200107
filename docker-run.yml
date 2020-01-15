@@ -8,12 +8,6 @@
           version: "{{ version }}"
       tasks:
   
-        - name: Cerramos containers abiertos
-          shell: "docker stop $(docker ps -q)"
-
-        - name: Hacemos pull de la imagen
-          shell: "docker pull jsfrnc/bootcamp-journals:{{version}}"
-          
         - name: Push Docker
           shell: " docker run -d --privileged --name journals_app_{{version}}  -p 8080:8080 -ti jsfrnc/bootcamp-journals:{{version}}"
  
