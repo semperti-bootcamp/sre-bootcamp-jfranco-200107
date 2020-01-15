@@ -6,8 +6,11 @@
       hosts: all
       vars:
           version: "{{ version }}"
+          dockeru: "jsfrnc"
+          dockerp: "*Emma2019"
       tasks:
-  
+        - name: Docker Login
+          shell: sudo docker login -u "{{dockeru}}" -p "*{{dockerp}}" docker.io
         - name: Docker Build
           shell: "docker build -t journals-{{version}} ."
 
