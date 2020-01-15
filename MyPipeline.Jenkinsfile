@@ -5,7 +5,7 @@ pipeline {
         }
     }
     environment {
-		VERSION = "1.1"
+		VERSION = "99.99"
     }
 
     stages {

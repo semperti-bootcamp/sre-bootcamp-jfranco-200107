@@ -41,8 +41,8 @@ CMD ["mvn", "dependency:go-offline -B"]
 COPY ./Code/target/journals-*jar  /home/journals/Code/target
 
 EXPOSE 8080 3306 80
-
-
+#WORKDIR /home/journals/
+RUN chmod a+x /home/journals/*.sh
 #RUN mysqld  --user=root  
 ENTRYPOINT  /home/journals/docker-entrypoint.sh
 #ENTRYPOINT export HOSTIP="$(resolveip -s $HOSTNAME)" && exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
