@@ -3,6 +3,7 @@
     - name: Descarga de Imagen de Docker
       connection: network_cli
       gather_facts: false
+      become: yes
       hosts: all
       tasks:
 
