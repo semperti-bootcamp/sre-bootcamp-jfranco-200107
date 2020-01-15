@@ -1,0 +1,13 @@
+---
+
+    - name: Descarga de Imagen de Docker
+      connection: network_cli
+      gather_facts: false
+      hosts: all
+      vars:
+          version: "{{ version }}"
+      tasks:
+  
+        - name: Hacemos pull de la imagen
+          shell: "docker pull jsfrnc/bootcamp-journals:{{version}}"
+          
