@@ -18,5 +18,13 @@
         shell: "mvn clean deploy -f {{ srcpath }}/pom.xml"
         register: shell_result
 
+
       - debug:
          var: shell_result.stdout_lines
+
+
+    # Print the shell task's stdout.
+    #- debug: msg={{ ps.stdout }}
+
+    # Print all contents of the shell task's output.
+    #- debug: var=ps
