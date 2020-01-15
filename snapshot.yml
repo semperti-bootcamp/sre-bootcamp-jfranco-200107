@@ -11,8 +11,12 @@
 
       - name: Mvn clean
         shell: "mvn versions:set -DnewVersion={{version}}-SNAPSHOT -f {{ srcpath }}/pom.xml"
-        register: mvn_result
+        register: shell_result
+ 
   
       - name: mvn clean deploy
         shell: "mvn clean deploy -f {{ srcpath }}/pom.xml"
-        register: mvn_result
+        register: shell_result
+
+      - debug:
+        var: shell_result.stdout_lines
