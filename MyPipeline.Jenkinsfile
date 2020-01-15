@@ -4,9 +4,9 @@ pipeline {
             label 'bc-jfranco'
         }
     }
-    environment {
+//    environment {
 		//VERSION = "99.99" Lo sacamos por un servicio de API que nos da la version
-    }
+//    }
 
     stages {
 			stage('Step 1 - Configuración') {
