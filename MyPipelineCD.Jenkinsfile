@@ -4,9 +4,9 @@ pipeline {
             label 'bc-jfranco'
         }
     }
-    environment {
-		VERSION = "1.1"
-    }
+//    environment {
+//		VERSION = "1.1"
+//    }
     stages {
 			stage('Stage 1 - Docker: Estopeando instancias previas') {
 				steps {
@@ -14,13 +14,19 @@ pipeline {
 				}
 			}
 			stage('Stage 2 - Docker Image Download') {
+				environment { 
+                    VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/getlast/journals').trim()
+                }
 				steps {
-                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSION}"'
+                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSVERSIONAPIION}"'
 				}
 			}
 			stage('Stage 3 - Docker Run') {
+				environment { 
+                    VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/getlast/journals').trim()
+                }
 				steps {
-                	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSION}"'
+                	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSIONAPI}"'
 				}
 			}
 			stage('Stage 4 - Esperando respuesta del contenedor') {
