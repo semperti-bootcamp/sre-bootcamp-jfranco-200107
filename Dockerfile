@@ -38,7 +38,7 @@ COPY . /home/journals/
 
  
 CMD ["mvn", "dependency:go-offline -B"]
-COPY ./Code/target/journals-*jar  /home/journals/Code/target
+COPY ./Code/target/journals-*jar  /home/journals/Code/target/
 
 EXPOSE 8080 3306 80
 #WORKDIR /home/journals/
