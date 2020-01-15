@@ -8,22 +8,12 @@ pipeline {
 		VERSION = "1.1"
     }
     stages {
-			stage('Stage 1 - Docker: Estopeando instancias previas') {
+			stage('Docker Image Download & Run') {
 				steps {
-                	sh 'ansible-playbook docker-clean.yml'
+                	sh 'ansible-playbook docker-cd.yml --extra-vars "version=${VERSION}"'
 				}
 			}
-			stage('Stage 2 - Docker Image Download') {
-				steps {
-                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSION}"'
-				}
-			}
-			stage('Stage 3 - Docker Run') {
-				steps {
-                	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSION}"'
-				}
-			}
-			stage('Stage 4 - Esperando respuesta del contenedor') {
+			stage('Esperando respuesta del contenedor') {
 				steps {
  
 					timeout(300) {
@@ -36,7 +26,7 @@ pipeline {
 					}
 				}
 			}
-			stage('Stage 5 - Prueba de acceso a la aplicación mediante un curl') {
+			stage('Prueba de acceso a la aplicación mediante un curl') {
 				steps {
                		sh "curl http://localhost:8080"
 				}
