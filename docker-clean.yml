@@ -1,0 +1,13 @@
+---
+
+    - name: Descarga de Imagen de Docker
+      connection: network_cli
+      gather_facts: false
+      hosts: all
+      tasks:
+  
+        - name: Cerramos containers abiertos
+          shell: "docker stop $(docker ps -q)"
+ 
+ 
+          
