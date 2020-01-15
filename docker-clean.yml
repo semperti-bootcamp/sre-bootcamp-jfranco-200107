@@ -6,8 +6,9 @@
       hosts: all
       tasks:
   
-        - name: Cerramos containers abiertos
-          shell: "docker stop $(docker ps -q)"
+        - name: stop all docker containers
+          shell: docker stop $(docker ps -a -q)
+          ignore_errors: true
  
  
           
