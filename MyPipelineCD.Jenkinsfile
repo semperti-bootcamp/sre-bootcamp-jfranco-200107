@@ -18,7 +18,7 @@ pipeline {
                     VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/getlast/journals').trim()
                 }
 				steps {
-                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSVERSIONAPIION}"'
+                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSIONAPI}"'
 				}
 			}
 			stage('Stage 3 - Docker Run') {
