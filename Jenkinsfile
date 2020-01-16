@@ -75,6 +75,9 @@ pipeline {
 				when {
 					branch 'task10-master'
             	}
+				environment { 
+                    VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/getlast/journals').trim()
+                }
 				steps {
                 	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSIONAPI}"'
 				}
@@ -83,6 +86,9 @@ pipeline {
 				when {
 					branch 'task10-master'
             	}
+				environment { 
+                    VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/getlast/journals').trim()
+                }
 				steps {
                 	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSIONAPI}"'
 				}
