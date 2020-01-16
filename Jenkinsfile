@@ -12,9 +12,8 @@ pipeline {
     stages {
 			stage('Stage 1 - Configuración') {
 				steps {
- 
 					echo "Estamos en el branch: ${branch_name}"
-					man = readJSON file: 'manifest.json'
+					def man = readJSON file: 'manifest.json'
 		   			echo "Nombre del proyecto: ${man.title}"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
 				}		
