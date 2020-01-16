@@ -4,15 +4,23 @@ pipeline {
             label 'bc-jfranco'
         }
     }
-//    environment {
+    environment {
 		//VERSION = "99.99" Lo sacamos por un servicio de API que nos da la version
-//    }
+		def branch_name = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+    }
 
     stages {
-			stage('Step 1 - Configuración') {
+			stage('Stage 1 - Configuración') {
 				steps {
+
+					echo "Estamos en el branch: ${branch_name}"
+					man = readJSON file: 'manifest.json'
+		   			echo "Nombre del proyecto: ${man.title}"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
 				}
+		   sh "sudo yum -y install wget nc ansible"
+            }
+				
 			}
 			stage('Step 2 - Unit testing') {
 				steps {
