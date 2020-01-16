@@ -9,6 +9,19 @@ pipeline {
 //    }
 
     stages {
+		stage('Example') {
+				steps {
+					script { 
+						if (env.BRANCH_NAME != 'task10-master') {
+							 echo 'things and stuff'
+						} else {
+							 
+							echo 'This is not master '
+						}
+						echo 'This is not master or staging ${BRANCH_NAME}'
+					}
+				}
+			}
 			stage('Step 1 - Configuración') {
 				steps {
 					sh "sudo /opt/openvpn/connect-vpn.sh"

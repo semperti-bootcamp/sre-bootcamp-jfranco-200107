@@ -19,6 +19,43 @@ https://trunkbaseddevelopment.com
 
 ## Configuracion de Jenkins
 
+- Se creo una nueva tarea journals-multibranch-pipeline del tipo Multibranch Pipeline.
+- Se agrega repositorio y expresion regular para los repositorios asociados, en este caso fue ```^(.*task10).*$```
+```
+En procesoScan Multibranch Pipeline Log
+Started
+[Wed Jan 15 23:27:05 ART 2020] Starting branch indexing...
+ > git --version # timeout=10
+using GIT_ASKPASS to set credentials test
+ > git ls-remote https://github.com/semperti-bootcamp/sre-bootcamp-jfranco-200107.git # timeout=10
+ > git rev-parse --is-inside-work-tree # timeout=10
+Setting origin to https://github.com/semperti-bootcamp/sre-bootcamp-jfranco-200107.git
+ > git config remote.origin.url https://github.com/semperti-bootcamp/sre-bootcamp-jfranco-200107.git # timeout=10
+Fetching & pruning origin...
+Listing remote references...
+ > git config --get remote.origin.url # timeout=10
+ > git --version # timeout=10
+using GIT_ASKPASS to set credentials test
+ > git ls-remote -h https://github.com/semperti-bootcamp/sre-bootcamp-jfranco-200107.git # timeout=10
+Fetching upstream changes from origin
+ > git config --get remote.origin.url # timeout=10
+using GIT_ASKPASS to set credentials test
+ > git fetch --tags --progress origin +refs/heads/*:refs/remotes/origin/* --prune
+Checking branches...
+  Checking branch task10-master
+      ‘Jenkinsfile’ found
+    Met criteria
+Scheduled build for branch: task10-master
+  Checking branch task10-staging
+      ‘Jenkinsfile’ found
+    Met criteria
+Changes detected: task10-staging (070570ca8e54b724970ebccc4ed36b22b7181a0c → cd35c717dd690df8d28409926c09830fa516c7df)
+Scheduled build for branch: task10-staging
+Processed 11 branches
+[Wed Jan 15 23:27:08 ART 2020] Finished branch indexing. Indexing took 2.8 sec
+Finished: SUCCESS
+```
+
 # Contact
 
 Cualquier duda o consulta, ubicanos en [Slack](https://semperti.slack.com).
