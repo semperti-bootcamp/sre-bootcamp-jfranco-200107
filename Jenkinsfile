@@ -7,13 +7,13 @@ pipeline {
     environment {
 		//VERSION = "99.99" Lo sacamos por un servicio de API que nos da la version
 		def branch_name = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+		def man = readJSON file: 'manifest.json'
     }
 
     stages {
 			stage('Stage 1 - Configuración') {
 				steps {
 					echo "Estamos en el branch: ${branch_name}"
-					def man = readJSON file: 'manifest.json'
 		   			echo "Nombre del proyecto: ${man.title}"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
 				}		
