@@ -17,10 +17,7 @@ pipeline {
 					man = readJSON file: 'manifest.json'
 		   			echo "Nombre del proyecto: ${man.title}"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
-				}
-		   sh "sudo yum -y install wget nc ansible"
-            }
-				
+				}		
 			}
 			stage('Step 2 - Unit testing') {
 				steps {
