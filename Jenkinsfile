@@ -50,7 +50,17 @@ pipeline {
 					sh 'ansible-playbook release.yml --extra-vars "version=${VERSIONAPI}"'
 				}
 			}
-			stage('Step 5 - Creacion del Docker & Publicacion ') {
+
+			stage('Stage 5 - Docker: Estopeando instancias previas') {
+				when {
+					branch 'task10-master'
+            	}
+				steps {
+                	sh 'ansible-playbook docker-clean.yml'
+				}
+			}
+
+			stage('Step 6 - Creacion del Docker & Publicacion ') {
 				when {
 					branch 'task10-master'
             	}
@@ -61,20 +71,12 @@ pipeline {
 					sh 'ansible-playbook docker-publish.yml --extra-vars "version=${VERSIONAPI}"'
 				}
 			}
-			stage('Stage 6 - Docker: Estopeando instancias previas') {
-				when {
-					branch 'task10-master'
-            	}
-				steps {
-                	sh 'ansible-playbook docker-clean.yml'
-				}
-			}
 			stage('Stage 7 - Docker Image Download') {
 				when {
 					branch 'task10-master'
             	}
 				steps {
-                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSION}"'
+                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSIONAPI}"'
 				}
 			}
 			stage('Stage 8 - Docker Run') {
@@ -82,7 +84,7 @@ pipeline {
 					branch 'task10-master'
             	}
 				steps {
-                	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSION}"'
+                	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSIONAPI}"'
 				}
 			}
 			stage('Stage 9 - Esperando respuesta del contenedor') {
