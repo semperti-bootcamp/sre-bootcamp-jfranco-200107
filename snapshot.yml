@@ -1,0 +1,31 @@
+---
+
+  - name: Creacion de Snapshot de la App
+    connection: network_cli
+    gather_facts: false
+    hosts: all
+    vars:
+        srcpath: Code
+        version: "{{ version }}"
+    tasks:
+
+      - name: Mvn clean
+        shell: "mvn versions:set -DnewVersion={{version}}-SNAPSHOT -f {{ srcpath }}/pom.xml"
+        register: shell_result
+ 
+  
+    # sacamos el mvn clean deploy por los problemas de la vpn
+      - name: mvn clean deploy
+        shell: "mvn deploy -f {{ srcpath }}/pom.xml"
+        register: shell_result
+
+
+      - debug:
+         var: shell_result.stdout_lines
+
+
+    # Print the shell task's stdout.
+    #- debug: msg={{ ps.stdout }}
+
+    # Print all contents of the shell task's output.
+    #- debug: var=ps

@@ -1,0 +1,27 @@
+---
+
+    - name: Publicacion de Docker a DockerHub
+      connection: network_cli
+      gather_facts: false
+      hosts: all
+      vars:
+          version: "{{ version }}"
+          dockeru: "jsfrnc"
+          dockerp: "*Emma2019"
+      tasks:
+        - name: Docker Login
+          shell: docker login -u "{{dockeru}}" -p "{{dockerp}}" docker.io
+        - name: Docker Build
+          shell: "docker build -t journals-{{version}} ."
+
+        - name: Tageamos la version
+          shell: "docker tag journals-{{version}} jsfrnc/bootcamp-journals:{{version}}"
+          
+        - name: Push Docker
+          shell: "docker push jsfrnc/bootcamp-journals:{{version}}"
+ 
+           
+ 
+
+
+ 
