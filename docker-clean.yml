@@ -9,3 +9,4 @@
   
         - name: Cerramos containers abiertos
           shell: "docker stop $(docker ps -q)"
+          ignore_errors: yes
