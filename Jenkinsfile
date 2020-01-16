@@ -1,61 +1,109 @@
-// Provide list of environments [needs to have a folder within ansible/environments to check hosts]
-list_of_environments = ['staging', 'production']
 pipeline {
-
-    // Define Agent and Stages
     agent {
-        node() {
-            label 'rc-sre-jonathan-tissot'
+        node (){
+            label 'bc-jfranco'
         }
     }
-
-
+//    environment {
+		//VERSION = "99.99" Lo sacamos por un servicio de API que nos da la version
+//    }
 
     stages {
-        // Run only once to configure Jenkins Slave
-        stage('Configure Jenkins Slave') {
-            steps{
-                sh "yum install wget unzip epel-release ansible awscli -y"
-                sh "curl https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip -o /usr/local/bin/terraform.zip"
-                sh "unzip -u /usr/local/bin/terraform.zip -d /usr/local/bin/"
-                sh 'export ANSIBLE_HOST_KEY_CHECKING=False'
-            }
-        }
-        
-        // Function defined below using Credentials for Ansible
-        stage('Configure Docker Image on Docker Host') {
-            steps{
-                withCredentials([file(credentialsId: 'ANSIBLE_JSON_ALL', variable: 'ANSIBLE_JSON')]) {
-                    configure_docker(list_of_environments)
+			stage('Step 1 - Configuración') {
+				steps {
+					sh "sudo /opt/openvpn/connect-vpn.sh"
+				}
+			}
+			stage('Step 2 - Unit testing') {
+				steps {
+					sh "echo TBD"
+ 					sh "mvn test -f Code/pom.xml"
+				}
+			}
+			stage('Step 3 - Snapshot & Upload a Nexus') {
+				environment { 
+                    VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/newsnapshot/journals').trim()
                 }
-            }   
-        }
-
-        // Function defined below to Check Health in a loop
-        stage('Check Health Status on WebServers') {
-            steps {
-                check_health_status(list_of_environments)
-            }
-        }
-        
-    }
-
-}
-// Function to configure Docker on list provided above
-def configure_docker(env) {
-    for (int i = 0; i < env.size();i++) {
-        sh "echo Configuring Docker for ${env[i]}"
-        sh "ansible-playbook --extra-vars @$ANSIBLE_JSON ansible/docker-configure.yml -i ansible/environments/${env[i]}"          
-        sh "ansible-playbook --extra-vars @$ANSIBLE_JSON ansible/deploy-java-docker.yml -i ansible/environments/${env[i]}"
-        sh "echo Webserver configured at port 8080 in `eval cat ansible/environments/${env[i]}/${env[i]}.inv | grep 10`"
-    }
-}
-
-// Function to check health on each web
-def check_health_status(env) {
-    for (int i = 0; i < env.size();i++) {
-        sh "echo Checking health for ${env[i]}"
-        sh "sleep 10s"
-        sh "curl -m 60 http://`eval cat ansible/environments/${env[i]}/${env[i]}.inv | grep 10`:8080"
+				steps {
+					sh 'echo Generamos un numero nuevo de snapshot, solo se actualiza el valor 1.1.X' 
+					sh 'echo Version ${VERSIONAPI}' 
+                	sh 'ansible-playbook snapshot.yml --extra-vars "version=${VERSIONAPI}"'
+				}
+			}
+			stage('Step 4 - Release & Upload a Nexus') {
+				when {
+                	// Only say hello if a "greeting" is requested
+                	//expression { params.REQUESTED_ACTION == 'greeting' }
+					branch 'task10-master'
+            	}
+				environment { 
+                    VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/newrelease/journals').trim()
+                }
+				steps {
+					sh 'echo Generamos un numero nuevo de version ya que se trata de un release' 
+					sh 'echo Version ${VERSIONAPI}' 
+					sh 'ansible-playbook release.yml --extra-vars "version=${VERSIONAPI}"'
+				}
+			}
+			stage('Step 5 - Creacion del Docker & Publicacion ') {
+				when {
+					branch 'task10-master'
+            	}
+				environment { 
+                    VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/getlast/journals').trim()
+                }
+				steps {
+					sh 'ansible-playbook docker-publish.yml --extra-vars "version=${VERSIONAPI}"'
+				}
+			}
+			stage('Stage 6 - Docker: Estopeando instancias previas') {
+				when {
+					branch 'task10-master'
+            	}
+				steps {
+                	sh 'ansible-playbook docker-clean.yml'
+				}
+			}
+			stage('Stage 7 - Docker Image Download') {
+				when {
+					branch 'task10-master'
+            	}
+				steps {
+                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSION}"'
+				}
+			}
+			stage('Stage 8 - Docker Run') {
+				when {
+					branch 'task10-master'
+            	}
+				steps {
+                	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSION}"'
+				}
+			}
+			stage('Stage 9 - Esperando respuesta del contenedor') {
+				when {
+					branch 'task10-master'
+            	}
+				steps {
+ 
+					timeout(300) {
+						waitUntil {
+						script {
+						def r = sh script: 'curl http://localhost:8080', returnStatus: true
+						return (r == 0);
+						}
+						}
+					}
+				}
+			}
+			stage('Stage 10 - Prueba de acceso a la aplicación mediante un curl') {
+				when {
+					branch 'task10-master'
+            	}
+				steps {
+               		sh "curl http://localhost:8080"
+				}
+			}
+			 
     }
 }

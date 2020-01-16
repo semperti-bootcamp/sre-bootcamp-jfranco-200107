@@ -1,0 +1,19 @@
+---
+
+  - name: Creacion de Release de la App
+    connection: network_cli
+    gather_facts: false
+    hosts: all
+    vars:
+        srcpath: Code
+        version: "{{ version }}"
+    tasks:
+
+      - name: Mvn clean
+        shell: "mvn versions:set -DnewVersion={{version}} -f {{ srcpath }}/pom.xml"
+        register: mvn_result
+  
+        # sacamos el mvn clean deploy por los problemas de la vpn
+      - name: mvn clean deploy
+        shell: "mvn deploy -f {{ srcpath }}/pom.xml"
+        register: mvn_result

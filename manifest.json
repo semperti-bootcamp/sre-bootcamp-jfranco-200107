@@ -1,0 +1,6 @@
+{
+    "title": "Aplicacion del Bootcamp",
+    "artifacts": {
+        "app": "journals-*.jar"
+    }
+}
