@@ -56,6 +56,8 @@ Processed 11 branches
 Finished: SUCCESS
 ```
 
+>Se modifico el Jenkinsfile para separar la logica de los Snapshot que se deberian generar el el branch de staging y los de release del master.
+
 # Contact
 
 Cualquier duda o consulta, ubicanos en [Slack](https://semperti.slack.com).

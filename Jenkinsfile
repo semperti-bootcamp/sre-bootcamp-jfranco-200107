@@ -35,7 +35,7 @@ pipeline {
                 	sh 'ansible-playbook snapshot.yml --extra-vars "version=${VERSIONAPI}"'
 				}
 			}
-			stage('Step 3 - Release & Upload a Nexus') {
+			stage('Step 4 - Release & Upload a Nexus') {
 				when {
                 	// Only say hello if a "greeting" is requested
                 	//expression { params.REQUESTED_ACTION == 'greeting' }
@@ -50,7 +50,7 @@ pipeline {
 					sh 'ansible-playbook release.yml --extra-vars "version=${VERSIONAPI}"'
 				}
 			}
-			stage('Step 4 - Creacion del Docker & Publicacion ') {
+			stage('Step 5 - Creacion del Docker & Publicacion ') {
 				when {
 					branch 'task10-master'
             	}
@@ -61,7 +61,7 @@ pipeline {
 					sh 'ansible-playbook docker-publish.yml --extra-vars "version=${VERSIONAPI}"'
 				}
 			}
-			stage('Stage 5 - Docker: Estopeando instancias previas') {
+			stage('Stage 6 - Docker: Estopeando instancias previas') {
 				when {
 					branch 'task10-master'
             	}
@@ -69,7 +69,7 @@ pipeline {
                 	sh 'ansible-playbook docker-clean.yml'
 				}
 			}
-			stage('Stage 6 - Docker Image Download') {
+			stage('Stage 7 - Docker Image Download') {
 				when {
 					branch 'task10-master'
             	}
@@ -77,7 +77,7 @@ pipeline {
                 	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSION}"'
 				}
 			}
-			stage('Stage 7 - Docker Run') {
+			stage('Stage 8 - Docker Run') {
 				when {
 					branch 'task10-master'
             	}
@@ -85,7 +85,7 @@ pipeline {
                 	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSION}"'
 				}
 			}
-			stage('Stage 8 - Esperando respuesta del contenedor') {
+			stage('Stage 9 - Esperando respuesta del contenedor') {
 				when {
 					branch 'task10-master'
             	}
@@ -101,7 +101,7 @@ pipeline {
 					}
 				}
 			}
-			stage('Stage 9 - Prueba de acceso a la aplicación mediante un curl') {
+			stage('Stage 10 - Prueba de acceso a la aplicación mediante un curl') {
 				when {
 					branch 'task10-master'
             	}
