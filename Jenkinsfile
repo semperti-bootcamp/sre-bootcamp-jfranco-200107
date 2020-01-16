@@ -21,6 +21,11 @@ pipeline {
 				}
 			}
 			stage('Step 3 - Snapshot & Upload a Nexus') {
+				when {
+					not {
+							branch 'task10-master'
+						}
+            	}
 				environment { 
                     VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/newsnapshot/journals').trim()
                 }
