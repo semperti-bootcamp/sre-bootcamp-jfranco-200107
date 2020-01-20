@@ -14,8 +14,10 @@ pipeline {
 					branch 'task10-master'
             	}
 				steps {
-					manifest = readJSON file: 'manifest.json'
-					environmentcfg = readJSON file: 'Environment/prod.json'
+					script {
+						manifest = readJSON file: 'manifest.json'
+						environmentcfg = readJSON file: 'Environment/prod.json'
+					}
 					echo "Estamos en el branch: ${branch_name}"
 		   			echo "Nombre del proyecto: ${man.title}"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
@@ -28,8 +30,10 @@ pipeline {
 						}
             	}
 				steps {
-					manifest = readJSON file: 'manifest.json'
-					environmentcfg = readJSON file: 'Environment/stage.json'
+					script {
+						manifest = readJSON file: 'manifest.json'
+						environmentcfg = readJSON file: 'Environment/stage.json'
+					}
 					echo "Estamos en el branch: ${branch_name}"
 		   			echo "Nombre del proyecto: ${man.title}"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
