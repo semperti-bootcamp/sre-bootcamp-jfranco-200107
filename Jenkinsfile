@@ -1,3 +1,6 @@
+def manifest
+def environment
+
 pipeline {
     agent {
         node (){
@@ -11,9 +14,28 @@ pipeline {
     }
 
     stages {
-			stage('Stage 1 - Configuración') {
-				def man = readJSON file: 'manifest.json'
+			stage('Stage 1 - Configuración - Prod') {
+				when {
+					branch 'task10-master'
+            	}
 				steps {
+					manifest = readJSON file: 'manifest.json'
+					environment = readJSON file: 'Environment/prod.json'
+					echo "Estamos en el branch: ${branch_name}"
+		   			echo "Nombre del proyecto: ${man.title}"
+					sh "sudo /opt/openvpn/connect-vpn.sh"
+				}		
+			}
+ 
+ 			stage('Stage 1 - Configuración - Staging') {
+				when {
+					not {
+							branch 'task10-master'
+						}
+            	}
+				steps {
+					manifest = readJSON file: 'manifest.json'
+					environment = readJSON file: 'Environment/stage.json'
 					echo "Estamos en el branch: ${branch_name}"
 		   			echo "Nombre del proyecto: ${man.title}"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
@@ -37,7 +59,7 @@ pipeline {
 				steps {
 					sh 'echo Generamos un numero nuevo de snapshot, solo se actualiza el valor 1.1.X' 
 					sh 'echo Version ${VERSIONAPI}' 
-                	sh 'ansible-playbook snapshot.yml --extra-vars "version=${VERSIONAPI}"'
+                	sh 'ansible-playbook snapshot.yml --extra-vars "version=${VERSIONAPI} port=${environment.app.port}"'
 				}
 			}
 			stage('Step 4 - Release & Upload a Nexus') {
@@ -52,7 +74,7 @@ pipeline {
 				steps {
 					sh 'echo Generamos un numero nuevo de version ya que se trata de un release' 
 					sh 'echo Version ${VERSIONAPI}' 
-					sh 'ansible-playbook release.yml --extra-vars "version=${VERSIONAPI}"'
+					sh 'ansible-playbook release.yml --extra-vars "version=${VERSIONAPI} port=${environment.app.port}"'
 				}
 			}
 
@@ -73,7 +95,7 @@ pipeline {
                     VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/getlast/journals').trim()
                 }
 				steps {
-					sh 'ansible-playbook docker-publish.yml --extra-vars "version=${VERSIONAPI}"'
+					sh 'ansible-playbook docker-publish.yml --extra-vars "version=${VERSIONAPI} port=${environment.app.port}"'
 				}
 			}
 			stage('Stage 7 - Docker Image Download') {
@@ -84,7 +106,7 @@ pipeline {
                     VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/getlast/journals').trim()
                 }
 				steps {
-                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSIONAPI}"'
+                	sh 'ansible-playbook docker-download.yml --extra-vars "version=${VERSIONAPI} port=${environment.app.port}"'
 				}
 			}
 			stage('Stage 8 - Docker Run') {
@@ -95,7 +117,7 @@ pipeline {
                     VERSIONAPI= sh (returnStdout: true, script: 'curl http://jenkins-api.azurewebsites.net/api/values/getlast/journals').trim()
                 }
 				steps {
-                	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSIONAPI}"'
+                	sh 'ansible-playbook docker-run.yml --extra-vars "version=${VERSIONAPI} port=${environment.app.port}"'
 				}
 			}
 			stage('Stage 9 - Esperando respuesta del contenedor') {
