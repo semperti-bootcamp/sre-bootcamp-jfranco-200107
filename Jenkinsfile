@@ -20,7 +20,6 @@ pipeline {
 					}
 					echo "Estamos en el branch: ${branch_name}"
 		   			echo "Nombre del proyecto: ${manifest.title}"
-					sh "init.sh"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
 				}		
 			}
