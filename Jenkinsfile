@@ -20,8 +20,7 @@ pipeline {
 					}
 					echo "Estamos en el branch: ${branch_name}"
 		   			echo "Nombre del proyecto: ${manifest.title}"
-					sh "export MAVEN_HOME=/opt/maven"
-					sh "export PATH=$PATH:$MAVEN_HOME/bin"
+					sh "/init.sh"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
 				}		
 			}
