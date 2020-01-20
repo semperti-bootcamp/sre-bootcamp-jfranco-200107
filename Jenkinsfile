@@ -1,3 +1,4 @@
+#!groovy
 def manifest
 def environment
 
