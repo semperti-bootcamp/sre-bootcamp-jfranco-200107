@@ -19,7 +19,7 @@ pipeline {
 						environmentcfg = readJSON file: 'Environment/prod.json'
 					}
 					echo "Estamos en el branch: ${branch_name}"
-		   			echo "Nombre del proyecto: ${man.title}"
+		   			echo "Nombre del proyecto: ${manifest.title}"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
 				}		
 			}
@@ -35,7 +35,7 @@ pipeline {
 						environmentcfg = readJSON file: 'Environment/stage.json'
 					}
 					echo "Estamos en el branch: ${branch_name}"
-		   			echo "Nombre del proyecto: ${man.title}"
+		   			echo "Nombre del proyecto: ${manifest.title}"
 					sh "sudo /opt/openvpn/connect-vpn.sh"
 				}		
 			}
