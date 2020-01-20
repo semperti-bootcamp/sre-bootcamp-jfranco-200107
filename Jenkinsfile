@@ -42,7 +42,8 @@ pipeline {
 			stage('Step 2 - Unit testing') {
 				steps {
 					sh "echo TBD"
- 					sh "mvn test -f Code/pom.xml"
+					sh "mvn -version"
+ 					//sh "mvn test -f Code/pom.xml"
 				}
 			}
 			stage('Step 3 - Snapshot & Upload a Nexus') {
