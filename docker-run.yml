@@ -7,10 +7,11 @@
       hosts: all
       vars:
           version: "{{ version }}"
+          port: "{{ port }}"
       tasks:
   
         - name: Push Docker
-          shell: " docker run -d --privileged --name journals_app_{{version}}  -p 8080:8080 -ti jsfrnc/bootcamp-journals:{{version}}"
+          shell: " docker run -d --privileged --name journals_app_{{version}}  -p {{port}}:8080 -ti jsfrnc/bootcamp-journals:{{version}}"
  
            
  
