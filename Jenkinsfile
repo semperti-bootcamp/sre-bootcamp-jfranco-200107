@@ -21,7 +21,6 @@ pipeline {
 					sh "sudo /opt/openvpn/connect-vpn.sh"
 				}		
 			}
- 
  			stage('Stage 1 - Configuración - Staging') {
 				when {
 					not {
