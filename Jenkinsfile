@@ -7,12 +7,6 @@ pipeline {
             label 'bc-jfranco'
         }
     }
-    environment {
-		//VERSION = "99.99" Lo sacamos por un servicio de API que nos da la version
-		def branch_name = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
-		 
-    }
-
     stages {
 			stage('Stage 1 - Configuración - Prod') {
 				when {
