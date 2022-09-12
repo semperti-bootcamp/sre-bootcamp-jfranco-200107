@@ -1,6 +1,10 @@
 # Week 01 - Assignments
 Repositorio para los assignments de la primer semana.
 
+# Terraform (VM Machine)
+Información necesaria para la creacion del ambiente.
+[link](TF/README.md)
+
 # Java Application
 
 ## Prerequisites
