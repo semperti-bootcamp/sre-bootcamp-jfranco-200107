@@ -1,0 +1,98 @@
+- name: Semperti test
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Borramos version vieja de Maven
+      yum:
+        name: maven
+        state: removed
+      become: yes
+
+
+    - name: Instalamos los paquetes java-1.8.0-openjdk, maven & mariadb-server
+      yum: name={{ item }} state=present
+      with_items:
+          - java-1.8.0-openjdk
+          #- maven
+          - mariadb-server
+          #- MySQL-python
+      become: yes
+      #become_user: jsfrnc
+      #become_flags: '-s /bin/sh' 
+     
+    - name: systemctl start mariadb
+      shell: systemctl start mariadb
+      become: yes
+
+    - name: systemctl start mariadb
+      shell: systemctl enable mariadb
+      become: yes
+
+ 
+    - name: Unarchive Maven 3.6.3
+      shell: wget https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp
+      become: yes
+
+    - name: Unarchive Maven 3.6.3
+      shell: tar xf /tmp/apache-maven-3.6.3-bin.tar.gz -C /opt 
+      become: yes
+
+    - name: Move Maven 3.6.3
+      shell: ln -s /opt/apache-maven-3.6.3 /opt/maven
+      become: yes
+
+    - name: Create maven.sh
+      shell: touch /etc/profile.d/maven.sh
+      become: yes
+ 
+ 
+    - name: Modify file  
+      copy:
+        dest: "/etc/profile.d/maven.sh"
+        content: |
+          export JAVA_HOME=/usr/lib/jvm/jre-openjdk
+          export M2_HOME=/opt/maven
+          export MAVEN_HOME=/opt/maven
+          export PATH=${M2_HOME}/bin:${PATH}
+      become: yes
+          
+ 
+
+    - name: Run maven.sh
+      shell: source /etc/profile.d/maven.sh
+      become: yes
+
+
+
+  #- name: Start MariaDb service
+    #  service: name=mariadb state=started enabled=true
+      #shell: mysqld start --user=root 
+      #service: name=mysqld state=started enabled=true
+    #  become: yes
+
+    #- name: descargamos mysql
+    #  yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
+    #  become: yes
+      #become_user: jsfrnc
+
+    #- name: instalamos mysql
+    #  yum: pkg={{ item }}
+    #  with_items:
+    #  - mysql-community-server
+    #  - mysql-community-client
+    #  - MySQL-python
+    #  become: yes
+
+
+    #- name: Install the Python MySQL Support Libraries
+    #  yum: pkg=MySQL-python state=latest
+    #- name: start mysql server and enable it on reboot
+    #  service: name=mariadb state=started enabled=true #debian: mysql
+
+    #- name: Start MariaDb service
+    #  service: name=mariadb state=started enabled=true
+      #shell: mysqld start --user=root 
+      #service: name=mysqld state=started enabled=true
+    #  become: yes
+
+ 

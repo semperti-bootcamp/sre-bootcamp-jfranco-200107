@@ -1,0 +1,8 @@
+[azure]
+vmbootcamp2020.eastus.cloudapp.azure.com set_hostname=azure_vm_centos7 ansible_ssh_user=jsfrnc ansible_ssh_pass=Semperti.2020
+
+[local]
+
+[servers:children]
+azure
+local
