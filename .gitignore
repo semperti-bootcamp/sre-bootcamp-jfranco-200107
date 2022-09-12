@@ -40,73 +40,36 @@ target/
 
 # End of https://www.gitignore.io/api/java,java-web,code-java
 
-# Edit at https://www.gitignore.io/?templates=eclipse
+### Terraform ###
+# Local .terraform directories
+**/.terraform/*
 
-### Eclipse ###
-.metadata
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
-.recommenders
+# .tfstate files
+*.tfstate
+*.tfstate.*
 
-# External tool builders
-.externalToolBuilders/
+# Crash log files
+crash.log
 
-# Locally stored "Eclipse launch configurations"
-*.launch
+# Ignore any .tfvars files that are generated automatically for each Terraform run. Most
+# .tfvars files are managed as part of configuration and so should be included in
+# version control.
+#
+# example.tfvars
 
-# PyDev specific (Python IDE for Eclipse)
-*.pydevproject
+terraform.tfvars
 
-# CDT-specific (C/C++ Development Tooling)
-.cproject
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
-# CDT- autotools
-.autotools
+# Include override files you do wish to add to version control using negated pattern
+# !example_override.tf
 
-# Java annotation processor (APT)
-.factorypath
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*
 
-# PDT-specific (PHP Development Tools)
-.buildpath
-
-# sbteclipse plugin
-.target
-
-# Tern plugin
-.tern-project
-
-# TeXlipse plugin
-.texlipse
-
-# STS (Spring Tool Suite)
-.springBeans
-
-# Code Recommenders
-.recommenders/
-
-# Annotation Processing
-.apt_generated/
-
-# Scala IDE specific (Scala & Java development for Eclipse)
-.cache-main
-.scala_dependencies
-.worksheet
-
-### Eclipse Patch ###
-# Eclipse Core
-.project
-
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
-
-# Annotation Processing
-.apt_generated
-
-.sts4-cache/
+# End of https://www.gitignore.io/api/terraform
